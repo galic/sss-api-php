@@ -75,6 +75,7 @@ $app->configure('app');
 $app->middleware([
     App\Http\Middleware\ConvertResponseFieldsToCamelCase::class,
     App\Http\Middleware\ConvertRequestFieldsToCamelCase::class,
+    App\Http\Middleware\CorsMiddleware::class,
 ]);
 
 // $app->routeMiddleware([
