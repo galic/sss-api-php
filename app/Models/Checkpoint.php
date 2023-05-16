@@ -28,6 +28,6 @@ class Checkpoint extends Model implements AuthenticatableContract, AuthorizableC
      * @var string[]
      */
     protected $hidden = [
-        //'created_at', 'updated_at',
+        'created_at', 'updated_at',
     ];
 }
