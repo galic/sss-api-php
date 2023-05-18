@@ -29,8 +29,6 @@ class CheckpointController extends Controller
     }
     public function getCheckpoints()
     {
-        //var_dump(response());
-        //exit;
         $query = Checkpoint::query();
         if(request()->has('cn')) {
 
@@ -51,7 +49,6 @@ class CheckpointController extends Controller
             return $item1['time'] <=> $item2['time'];
         });
 
-        dd($checkpoints);
 
         Log::info(CheckpointController::class . ' getCheckpoints');
 
