@@ -73,6 +73,8 @@ class CheckpointController extends Controller
 
     public function create(Request $request)
     {
+        $this->validate($request, Checkpoint::getValidationRules());
+
         $checkpoint = $request->all();
         Log::info(CheckpointController::class.' post: '. implode(', ', $checkpoint));
 
@@ -93,6 +95,8 @@ class CheckpointController extends Controller
 
     public function update($id, Request $request)
     {
+        $this->validate($request, Checkpoint::getValidationRules());
+
         $record = Checkpoint::findOrFail($id);
         $record->update($request->all());
 

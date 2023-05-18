@@ -30,4 +30,18 @@ class Checkpoint extends Model implements AuthenticatableContract, AuthorizableC
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
+    /**
+     * Get model validation rules.
+     *
+     * @return array
+     */
+    public static function getValidationRules()
+    {
+        return [
+            'starting_number'=>'required|unique:checkpoints',
+            'checkpoint_number'=>'required|max:1|min:0',
+            'time'=>'required',
+        ];
+    }
 }
