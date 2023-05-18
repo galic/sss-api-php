@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Checkpoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CheckpointController extends Controller
 {
@@ -20,9 +21,44 @@ class CheckpointController extends Controller
 
     public function showAll()
     {
+        $result = Checkpoint::all();
+
+        Log::info(CheckpointController::class . ' showAll');
+
         return response()->json(Checkpoint::all());
     }
-    public function result()
+    public function getCheckpoints()
+    {
+        //var_dump(response());
+        //exit;
+        $query = Checkpoint::query();
+        if(request()->has('cn')) {
+
+            $cn=request()->get('cn');
+            $query=$query->where('checkpoint_number', '=', $cn);
+        }
+        $query=$query->orderByDesc('time');
+        if(request()->has('limit')) {
+
+            $limit=request()->get('limit');
+            $query=$query->take($limit);
+        }
+
+        $checkpoints=$query->get()->toArray();
+
+        // local reverse sort time
+        usort($checkpoints, function ($item1, $item2) {
+            return $item1['time'] <=> $item2['time'];
+        });
+
+        dd($checkpoints);
+
+        Log::info(CheckpointController::class . ' getCheckpoints');
+
+        return response()->json($checkpoints);
+    }
+
+    public function protocol()
     {
         $results = DB::select(
             "select t.starting_number,c0.time as start_date,c1.time as stop_date from (select starting_number FROM sss.checkpoints group by starting_number) t
@@ -40,9 +76,22 @@ class CheckpointController extends Controller
 
     public function create(Request $request)
     {
-        $record = Checkpoint::create($request->all());
+        $checkpoint = $request->all();
+        Log::info(CheckpointController::class.' post: '. implode(', ', $checkpoint));
+
+        $checkpoint = $this->removeTrailingZFromTimeField($checkpoint);
+        Log::info('post converted: '. implode(', ', $checkpoint));
+
+        $record = Checkpoint::create($checkpoint);
 
         return response()->json($record, 201);
+    }
+    private function removeTrailingZFromTimeField($checkpoint)
+    {
+        if (isset($checkpoint['time']) && strtoupper(substr($checkpoint['time'], -1)) == 'Z') {
+            $checkpoint['time'] = substr($checkpoint['time'], 0, -1);   //remove last char
+        }
+        return $checkpoint;
     }
 
     public function update($id, Request $request)
