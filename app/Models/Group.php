@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 
-class Checkpoint extends Model implements AuthenticatableContract, AuthorizableContract
+class Group extends Model implements AuthenticatableContract, AuthorizableContract
 {
-    use Authenticatable, Authorizable, HasFactory;
+    use Authenticatable;
+    use Authorizable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class Checkpoint extends Model implements AuthenticatableContract, AuthorizableC
      * @var string[]
      */
     protected $fillable = [
-        'checkpoint_number', 'starting_number', 'time',
+        'name',
     ];
 
     /**
@@ -27,9 +29,7 @@ class Checkpoint extends Model implements AuthenticatableContract, AuthorizableC
      *
      * @var string[]
      */
-    protected $hidden = [
-        'created_at', 'updated_at',
-    ];
+    protected $hidden = [];
 
     /**
      * Get model validation rules.
@@ -39,9 +39,7 @@ class Checkpoint extends Model implements AuthenticatableContract, AuthorizableC
     public static function getValidationRules()
     {
         return [
-            'starting_number'=>'required',
-            'checkpoint_number'=>'required|max:1|min:0',
-            'time'=>'required',
+            'name'=>'required',
         ];
     }
 }
