@@ -30,19 +30,19 @@ class CheckpointController extends Controller
     public function getCheckpoints()
     {
         $query = Checkpoint::query();
-        if(request()->has('cn')) {
+        if (request()->has('cn')) {
 
-            $cn=request()->get('cn');
-            $query=$query->where('checkpoint_number', '=', $cn);
+            $cn = request()->get('cn');
+            $query = $query->where('checkpoint_number', '=', $cn);
         }
-        $query=$query->orderByDesc('time');
-        if(request()->has('limit')) {
+        $query = $query->orderByDesc('time');
+        if (request()->has('limit')) {
 
-            $limit=request()->get('limit');
-            $query=$query->take($limit);
+            $limit = request()->get('limit');
+            $query = $query->take($limit);
         }
 
-        $checkpoints=$query->get()->toArray();
+        $checkpoints = $query->get()->toArray();
 
         // local reverse sort time
         usort($checkpoints, function ($item1, $item2) {
@@ -76,10 +76,10 @@ class CheckpointController extends Controller
         $this->validate($request, Checkpoint::getValidationRules());
 
         $checkpoint = $request->all();
-        Log::info(CheckpointController::class.' post: '. implode(', ', $checkpoint));
+        Log::info(CheckpointController::class . ' post: ' . implode(', ', $checkpoint));
 
         $checkpoint = $this->removeTrailingZFromTimeField($checkpoint);
-        Log::info('post converted: '. implode(', ', $checkpoint));
+        Log::info('post converted: ' . implode(', ', $checkpoint));
 
         $record = Checkpoint::create($checkpoint);
 
@@ -88,7 +88,7 @@ class CheckpointController extends Controller
     private function removeTrailingZFromTimeField($checkpoint)
     {
         if (isset($checkpoint['time']) && strtoupper(substr($checkpoint['time'], -1)) == 'Z') {
-            $checkpoint['time'] = substr($checkpoint['time'], 0, -1);   //remove last char
+            $checkpoint['time'] = substr($checkpoint['time'], 0, -1); //remove last char
         }
         return $checkpoint;
     }
@@ -105,7 +105,12 @@ class CheckpointController extends Controller
 
     public function delete($id)
     {
+        Log::info(CheckpointController::class . ' delete: ' . $id);
         Checkpoint::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        $result = [
+            'id' => $id,
+            'description' => 'Deleted Successfully'
+        ];
+        return response($result, 200);
     }
 }

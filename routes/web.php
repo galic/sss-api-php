@@ -32,8 +32,8 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('checkpoints', ['uses' => 'CheckPointController@getCheckpoints']);
-    $router->get('checkpoints/{id}', ['uses' => 'CheckPointController@showOne']);
     $router->get('checkpoints/protocol', ['uses' => 'CheckPointController@protocol']);
+    $router->get('checkpoints/{id}', ['uses' => 'CheckPointController@showOne']);
     $router->post('checkpoints', ['uses' => 'CheckPointController@create']);
     $router->delete('checkpoints/{id}', ['uses' => 'CheckPointController@delete']);
     $router->put('checkpoints/{id}', ['uses' => 'CheckPointController@update']);
