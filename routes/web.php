@@ -37,4 +37,17 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('checkpoints', ['uses' => 'CheckPointController@create']);
     $router->delete('checkpoints/{id}', ['uses' => 'CheckPointController@delete']);
     $router->put('checkpoints/{id}', ['uses' => 'CheckPointController@update']);
+
+    $router->get('athletes', ['uses' => 'AthleteController@showAll']);
+    $router->get('athletes/{id}', ['uses' => 'AthleteController@showOne']);
+    $router->post('athletes', ['uses' => 'AthleteController@create']);
+    $router->delete('athletes/{id}', ['uses' => 'AthleteController@delete']);
+    $router->put('athletes/{id}', ['uses' => 'AthleteController@update']);
+
+    $router->get('groups', ['uses' => 'GroupController@showAll']);
+    $router->get('groups/{id}', ['uses' => 'GroupController@showOne']);
+    $router->post('groups', ['uses' => 'GroupController@create']);
+    $router->delete('groups/{id}', ['uses' => 'GroupController@delete']);
+    $router->put('groups/{id}', ['uses' => 'GroupController@update']);
+
 });

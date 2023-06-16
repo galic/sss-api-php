@@ -31,6 +31,7 @@ class Group extends Model implements AuthenticatableContract, AuthorizableContra
      */
     protected $hidden = [];
 
+    public $timestamps = false;
     /**
      * Get model validation rules.
      *

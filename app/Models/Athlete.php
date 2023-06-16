@@ -42,7 +42,7 @@ class Athlete extends Model implements AuthenticatableContract, AuthorizableCont
     {
         return [
             'name'=>'required',
-            'starting_number'=>'required|unique:competitors',
+            'starting_number'=>'required|unique:athletes',
         ];
     }
 }
