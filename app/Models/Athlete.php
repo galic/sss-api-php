@@ -21,7 +21,7 @@ class Athlete extends Model implements AuthenticatableContract, AuthorizableCont
      * @var string[]
      */
     protected $fillable = [
-        'name', 'starting_number',
+        'name', 'starting_number', 'group_id',
     ];
 
     /**
