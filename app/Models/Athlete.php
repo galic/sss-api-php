@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laravel\Lumen\Auth\Authorizable;
 
 class Athlete extends Model implements AuthenticatableContract, AuthorizableContract
@@ -44,5 +46,10 @@ class Athlete extends Model implements AuthenticatableContract, AuthorizableCont
             'name'=>'required',
             'starting_number'=>'required|unique:athletes',
         ];
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class)->withDefault();
     }
 }

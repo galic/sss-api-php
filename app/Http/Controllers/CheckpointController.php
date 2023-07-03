@@ -58,9 +58,10 @@ class CheckpointController extends Controller
     public function protocol()
     {
         $results = DB::select(
-            "select t.starting_number,c0.time as start_date,c1.time as stop_date from (select starting_number FROM sss.checkpoints group by starting_number) t
+            "select a.name,t.starting_number,c0.time as start_date,c1.time as stop_date from (select starting_number FROM sss.checkpoints group by starting_number) t
             left join checkpoints c0 on t.starting_number=c0.starting_number and c0.checkpoint_number=0
             left join checkpoints c1 on t.starting_number=c1.starting_number and c1.checkpoint_number=1
+            left join athletes a on t.starting_number=a.starting_number
             order by starting_number"
         );
         return response()->json($results);

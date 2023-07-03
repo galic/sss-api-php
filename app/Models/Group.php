@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Lumen\Auth\Authorizable;
 
 class Group extends Model implements AuthenticatableContract, AuthorizableContract
@@ -40,7 +41,12 @@ class Group extends Model implements AuthenticatableContract, AuthorizableContra
     public static function getValidationRules()
     {
         return [
-            'name'=>'required',
+            'name' => 'required',
         ];
+    }
+
+    public function athletes(): HasMany
+    {
+        return $this->hasMany(Athlete::class);
     }
 }

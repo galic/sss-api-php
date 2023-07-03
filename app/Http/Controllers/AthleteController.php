@@ -21,11 +21,13 @@ class AthleteController extends Controller
 
     public function showAll()
     {
-        $result = Athlete::all();
-
+        //$result = Athlete::all();
+        $result = Athlete::with('group')->get();
+        //var_dump($result);
+        //exit;
         Log::info(CheckpointController::class . ' showAll');
 
-        return response()->json(Athlete::all());
+        return response()->json($result);
     }
 
     public function showOne($id)
